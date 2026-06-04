@@ -683,15 +683,7 @@ window.doCancelLock = function() {
 };
 
 // ─── SİPARİŞLER ─────────────────────────────────────────
-window.switchSub = function(sub) {
-  activeSub = sub;
-  ['orders','garson'].forEach(t=>{
-    document.getElementById('stab-'+t).classList.toggle('active', t===sub);
-    document.getElementById('sc-'+t).classList.toggle('active', t===sub);
-  });
-  if(sub==='orders') { document.getElementById('dot-orders').classList.remove('on'); renderOrders(); }
-  if(sub==='garson') { document.getElementById('dot-garson').classList.remove('on'); renderGarson(); }
-};
+// switchSub yukarıda tanımlandı
 
 function renderOrders() {
   const el = document.getElementById('sc-orders');
