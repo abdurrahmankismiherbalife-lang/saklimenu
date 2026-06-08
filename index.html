@@ -206,7 +206,11 @@ const app = initializeApp(FC);
 const db = getDatabase(app);
 
 const MASALAR = [
-  ...Array.from({length:5}, (_,i)=>({id:`bungalov-${i+1}`,name:`Bungalov ${i+1}`,type:'bungalov'})),
+  {id:'bungalov-1',name:'Begonvil', type:'bungalov'},
+  {id:'bungalov-2',name:'Lavanta',  type:'bungalov'},
+  {id:'bungalov-3',name:'Ortanca',  type:'bungalov'},
+  {id:'bungalov-4',name:'Karanfil', type:'bungalov'},
+  {id:'bungalov-5',name:'Güneş',    type:'bungalov'},
   ...Array.from({length:11},(_,i)=>({id:`loca-${i+1}`,name:`Loca ${i+1}`,type:'loca'})),
   ...Array.from({length:11},(_,i)=>({id:`sezlong-${i+1}`,name:`Şezlong ${i+1}`,type:'sezlong'})),
   ...Array.from({length:11},(_,i)=>({id:`masa-${i+1}`,name:`Masa ${i+1}`,type:'masa'})),
@@ -284,7 +288,14 @@ const ftime = ()=>new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'
 const fdate = ()=>new Date().toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});
 
 // Menüyü hemen göster, Firebase güncellemesi gelince yenile
-document.getElementById('mh-masa').textContent = CURRENT_MASA.name;
+// Masa parametresi yoksa masa adı, sepet ve garson gizle
+const urlParams = new URLSearchParams(window.location.search);
+if(urlParams.get('masa')) {
+  document.getElementById('mh-masa').textContent = CURRENT_MASA.name;
+} else {
+  document.getElementById('mh-masa').style.display = 'none';
+  document.getElementById('cart-fixed').style.display = 'none';
+}
 renderCats();
 renderMenu();
 
@@ -326,7 +337,7 @@ function renderMenu(){
           <div class="irow">
             <div class="iphoto">
               <span>${it.emoji||'🍽️'}</span>
-              ${it.img?`<img src="${it.img}" alt="${it.name}">`:''}
+              ${it.img?`<img src="${it.img}" alt="${it.name}" loading="lazy">`:''}
               ${it.soldOut?`<div class="sold-ov"><span class="sold-tag">Tükendi</span></div>`:''}
             </div>
             <div class="ibody">
